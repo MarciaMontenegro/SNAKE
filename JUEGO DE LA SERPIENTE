@@ -171,6 +171,7 @@ int LogicaGrafica()
 
 	cout << "Puntaje: " << Puntaje << "    Vidas: " << vida << endl;
 
+
 	return 0;
 }
 
@@ -300,8 +301,6 @@ int LogicaJuego()
 		FrutasBonus[0] = 100; //X
 		FrutasBonus[1] = 100; //Y
 		cout << " ";
-
-
 	}
 
 	if (PosSerpiente[0] == FrutasBonus2[0] && PosSerpiente[1] == FrutasBonus2[1]) //MISMA UBICACION EN EJE X,Y
@@ -311,8 +310,6 @@ int LogicaJuego()
 		FrutasBonus2[0] = 100; //X
 		FrutasBonus2[1] = 100; //Y
 		cout << " ";
-
-
 	}
 
 	if (PosSerpiente[0] == FrutasBonus3[0] && PosSerpiente[1] == FrutasBonus3[1]) //MISMA UBICACION EN EJE X,Y
@@ -322,8 +319,6 @@ int LogicaJuego()
 		FrutasBonus3[0] = 100; //X
 		FrutasBonus3[1] = 100; //Y
 		cout << " ";
-
-
 	}
 
 	if (PosSerpiente[0] == FrutasBonus4[0] && PosSerpiente[1] == FrutasBonus4[1]) //MISMA UBICACION EN EJE X,Y
@@ -333,8 +328,6 @@ int LogicaJuego()
 		FrutasBonus4[0] = 100; //X
 		FrutasBonus4[1] = 100; //Y
 		cout << " ";
-
-
 	}
 
 	if (PosSerpiente[0] == FrutasBonus5[0] && PosSerpiente[1] == FrutasBonus5[1]) //MISMA UBICACION EN EJE X,Y
@@ -344,8 +337,6 @@ int LogicaJuego()
 		FrutasBonus5[0] = 100; //X
 		FrutasBonus5[1] = 100; //Y
 		cout << " ";
-
-
 	}
 
 	if (PosSerpiente[0] == FrutasBonus6[0] && PosSerpiente[1] == FrutasBonus6[1]) //MISMA UBICACION EN EJE X,Y
@@ -355,8 +346,6 @@ int LogicaJuego()
 		FrutasBonus6[0] = 100; //X
 		FrutasBonus6[1] = 100; //Y
 		cout << " ";
-
-
 	}
 
 	//CUANDO SE TOCA A SI MISMA
@@ -426,5 +415,7 @@ int main()
 	}
 
 	cout << " \nP E R D I S T E";
+
+
 	return 0;
 }
