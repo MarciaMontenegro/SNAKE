@@ -1,0 +1,465 @@
+//INTEGRANTES
+//MARCIA MONTENEGRO
+//JOAQUIN MUÑOZ
+//GABRIEL RODRIGUEZ
+
+
+#include <iostream>
+#include<stdlib.h>
+#include<time.h>
+#include<conio.h>
+
+using namespace std;
+
+
+
+
+//VARIABLES
+
+//1 LIMITES DEL JUEGO(BORDES)
+int AnchoBorde = 40;
+int AltoBorde = 20;
+
+//2 PUNTAJE
+int Puntaje = 0;
+
+//3 FIN DEL JUEGO
+bool GameOver = false;
+
+//vida
+int vida = 3;
+
+//4 DIRECCION
+enum Direcciones { PARADA = 0, IZQ, DRCH, ARRIBA, ABAJO };
+Direcciones DireccionSerpiente;
+//tamaño de cola de la serpiente
+int TamanoCola = 0;
+
+
+
+//ARRAYS
+
+//1 SERPIENTE X,Y
+int PosSerpiente[2];
+//2 COMIDA X,Y
+int PosComida[2];
+//3 COLA
+int PosColaX[100];
+int PosColaY[100];
+//4 FRUTAS BBONUS
+int FrutasBonus[2];
+int FrutasBonus2[2];
+int FrutasBonus3[2];
+int FrutasBonus4[2];
+int FrutasBonus5[2];
+int FrutasBonus6[2];
+
+
+
+
+
+int LogicaGrafica()
+{
+	//HACK PARA LIMPIAR LA PANTALLA
+	cout << "\033[H\033[2J\033[3J";
+
+	//LIMITE ARRIBA
+	for (int i = 0; i < (AnchoBorde * 2) + 1; i++)
+	{
+		cout << "=";
+	}
+	cout << endl;
+
+	//
+	for (int i = 0; i < AltoBorde; i++)//dentro del espacio del medio(altura)
+	{
+		for (int j = 0; j < AnchoBorde; j++)//dentro (ancho)
+		{
+			if (j == 0)//LIMITE IZQUIERDA
+			{
+				cout << "|";
+			}
+
+
+			//DIBUJOS
+			if (j == PosSerpiente[0] && i == PosSerpiente[1])//SI POSX DE SERPIENTE ES IGUAL A J(COORDENADA X) Y POSY DE SERPIENTE ES IGUAL A I(COORDENADA Y)
+			{
+				cout << "O"; //DIBUJA CABEZA DE LA SERPIENTE
+			}
+			else if (j == PosComida[0] && i == PosComida[1])
+			{
+				cout << "*"; //DIBUJA COMIDA
+
+
+			}
+
+
+			else if (Puntaje % 5 == 0 && j == FrutasBonus[0] && i == FrutasBonus[1])
+			{
+				cout << "%"; //DIBUJA COMIDA
+			}
+
+
+
+			else if (Puntaje % 5 == 0 && j == FrutasBonus2[0] && i == FrutasBonus2[1])
+			{
+				cout << "%"; //DIBUJA COMIDA
+			}
+
+
+			else if (Puntaje % 5 == 0 && j == FrutasBonus3[0] && i == FrutasBonus3[1])
+			{
+				cout << "%"; //DIBUJA COMIDA
+			}
+
+
+			else if (Puntaje % 5 == 0 && j == FrutasBonus4[0] && i == FrutasBonus4[1])
+			{
+				cout << "%"; //DIBUJA COMIDA
+			}
+
+
+			else if (Puntaje % 5 == 0 && j == FrutasBonus5[0] && i == FrutasBonus5[1])
+			{
+				cout << "%"; //DIBUJA COMIDA
+			}
+
+
+			else if (Puntaje % 5 == 0 && j == FrutasBonus6[0] && i == FrutasBonus6[1])
+			{
+				cout << "%"; //DIBUJA COMIDA
+			}
+
+			else if (FrutasBonus[0] == 100 && FrutasBonus[1] == 100 && FrutasBonus2[0] == 100 && FrutasBonus2[1] == 100 && FrutasBonus3[0] == 100 && FrutasBonus3[0] == 100)
+			{
+				FrutasBonus[0] = rand() % AnchoBorde; //X
+				FrutasBonus[1] = rand() % AltoBorde; //Y
+			}
+
+
+
+
+
+
+			else
+			{
+				bool MuestraCola = false; //para mostrar la cola
+				for (int k = 0; k < TamanoCola; k++)
+				{
+					if (PosColaX[k] == j && PosColaY[k] == i)
+					{
+						cout << "o";
+						MuestraCola = true;
+					}
+				}
+				if (!MuestraCola)
+				{
+					cout << " "; //espacio en blanco
+				}
+
+
+
+			}
+
+
+			if (j == AnchoBorde - 1)//LIMITE DERECHA
+			{
+				cout << "|";
+			}
+			cout << " "; //ESPACIO VACIO PARA RELLENAR DENTRO DEL LIMITE DEL JUEGO
+
+		}
+		cout << endl;
+
+	}
+
+
+	//LIMITE ABAJO
+	for (int i = 0; i < (AnchoBorde * 2) + 1; i++)
+	{
+		cout << '=';
+	}
+	cout << endl;
+
+	cout << "Puntaje: " << Puntaje << "    Vidas: " << vida << endl;
+
+
+
+
+
+	return 0;
+}
+
+int DetectarTeclas()
+{
+	//RECONOCIMIENTO DE TECLAS
+	if (_kbhit())//dectecta tecla apretada
+	{
+		switch (_getch())//para reconocer la tecla pulsada
+		{
+		case 'a': //IZQUIERDA
+			DireccionSerpiente = IZQ;
+			break;
+		case 'd': //DERECHA
+			DireccionSerpiente = DRCH;
+			break;
+		case 'w': //ARRIBA
+			DireccionSerpiente = ARRIBA;
+			break;
+		case 's': //ABAJO
+			DireccionSerpiente = ABAJO;
+			break;
+		}
+
+	}
+	return 0;
+}
+
+
+
+int MovimientoSerpiente()
+{
+
+	//MOVIMIENTO DE LA SERPIENTE
+	switch (DireccionSerpiente)
+	{
+	case PARADA:
+		break;
+	case IZQ:
+		PosSerpiente[0] -= 1; //MUEVE EL X DE LA SERPIENTE -1 A LA IZQUIERDA
+		break;
+	case DRCH:
+		PosSerpiente[0] += 1; //MUEVE EL X DE LA SERPIENTE +1 A LA DERECHA
+		break;
+	case ARRIBA:
+		PosSerpiente[1] -= 1; //MUEVE EL Y DE LA SERPIENTE -1 PARA ARRIBA
+		break;
+	case ABAJO:
+		PosSerpiente[1] += 1; //MUEVE EL Y DE LA SERPIENTE +1 PARA ABAJO
+		break;
+
+	}
+
+	return 0;
+}
+
+int MovimientoCola()
+{
+	//PRIMERA PARTE DE LA COLA
+	int XantiguaCola = PosColaX[0];
+	int YantiguaCola = PosColaY[0];
+	//SEGUNDA PARTE DE LA COLA
+	int XantiguaCola2, YantiguaCola2;
+
+	//LA 1ERA COLA SIGUE A LA CABEZA
+	PosColaX[0] = PosSerpiente[0];
+	PosColaY[0] = PosSerpiente[1];
+
+	//intercambio de pos
+	for (int i = 1; i < TamanoCola; i++)//itera las veces el tamaño de la cola
+	{
+		XantiguaCola2 = PosColaX[i];
+		YantiguaCola2 = PosColaY[i];
+
+		PosColaX[i] = XantiguaCola;
+		PosColaY[i] = YantiguaCola;
+
+		XantiguaCola = XantiguaCola2;
+		YantiguaCola = YantiguaCola2;
+	}
+
+	return 0;
+}
+
+
+
+int LogicaJuego()
+{
+
+	//CUANDO LA SERPIENTE TOCA LOS BORDES
+	if (PosSerpiente[0] >= AnchoBorde || PosSerpiente[0] < 0 || PosSerpiente[1] >= AltoBorde || PosSerpiente[1] < 0) // COLISION DRCH E IZQ- abajo y arriba
+	{
+		//QUITA UNA VIDA Y VUELVE A LA POS INICIAL
+		vida--;
+
+		PosSerpiente[0] = AnchoBorde / 2; //x
+		PosSerpiente[1] = AltoBorde / 2; //y
+
+		if (vida == -1)
+		{
+			GameOver = true;
+		}
+	}
+
+
+	//CUANDO LA SERPIENTE TOCA LA COMIDA
+
+	if (PosSerpiente[0] == PosComida[0] && PosSerpiente[1] == PosComida[1]) //MISMA UBICACION EN EJE X,Y
+	{
+		TamanoCola += 1;
+		Puntaje++;
+
+		//APARECE OTRA COMIDA
+
+
+		PosComida[0] = rand() % AnchoBorde; //X
+		PosComida[1] = rand() % AltoBorde; //Y
+
+
+	}
+	int mrd = 0;
+	//bonus
+	if (PosSerpiente[0] == FrutasBonus[0] && PosSerpiente[1] == FrutasBonus[1]) //MISMA UBICACION EN EJE X,Y
+	{
+
+		Puntaje += 10;
+		FrutasBonus[0] = 100; //X
+		FrutasBonus[1] = 100; //Y
+		cout << " ";
+
+
+	}
+
+	if (PosSerpiente[0] == FrutasBonus2[0] && PosSerpiente[1] == FrutasBonus2[1]) //MISMA UBICACION EN EJE X,Y
+	{
+
+		Puntaje += 5;
+		FrutasBonus2[0] = 100; //X
+		FrutasBonus2[1] = 100; //Y
+		cout << " ";
+
+
+	}
+
+	if (PosSerpiente[0] == FrutasBonus3[0] && PosSerpiente[1] == FrutasBonus3[1]) //MISMA UBICACION EN EJE X,Y
+	{
+
+		Puntaje += 5;
+		FrutasBonus3[0] = 100; //X
+		FrutasBonus3[1] = 100; //Y
+		cout << " ";
+
+
+	}
+
+	if (PosSerpiente[0] == FrutasBonus4[0] && PosSerpiente[1] == FrutasBonus4[1]) //MISMA UBICACION EN EJE X,Y
+	{
+
+		Puntaje += 10;
+		FrutasBonus4[0] = 100; //X
+		FrutasBonus4[1] = 100; //Y
+		cout << " ";
+
+
+	}
+
+	if (PosSerpiente[0] == FrutasBonus5[0] && PosSerpiente[1] == FrutasBonus5[1]) //MISMA UBICACION EN EJE X,Y
+	{
+
+		Puntaje += 10;
+		FrutasBonus5[0] = 100; //X
+		FrutasBonus5[1] = 100; //Y
+		cout << " ";
+
+
+	}
+
+	if (PosSerpiente[0] == FrutasBonus6[0] && PosSerpiente[1] == FrutasBonus6[1]) //MISMA UBICACION EN EJE X,Y
+	{
+
+		Puntaje += 10;
+		FrutasBonus6[0] = 100; //X
+		FrutasBonus6[1] = 100; //Y
+		cout << " ";
+
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+	//CUANDO SE TOCA A SI MISMA
+	for (int i = 0; i < TamanoCola; i++)
+	{
+		//QUITA UNA VIDA Y CONTINUA EL JUEGO
+		if (PosColaX[i] == PosSerpiente[0] && PosColaY[i] == PosSerpiente[1])
+		{
+			vida--;
+			if (vida == -1)
+			{
+				GameOver = true;
+			}
+		}
+	}
+
+	return 0;
+}
+
+
+
+
+
+int main()
+{
+	//UBICACION DE LA SERPIENTE AL INICIAR
+	PosSerpiente[0] = AnchoBorde / 2; //x
+	PosSerpiente[1] = AltoBorde / 2; //y
+	srand(time(0));
+	PosComida[0] = rand() % AnchoBorde; //X
+	PosComida[1] = rand() % AltoBorde; //Y
+
+
+	FrutasBonus[0] = rand() % AnchoBorde; //X
+	FrutasBonus[1] = rand() % AltoBorde; //Y
+
+	FrutasBonus2[0] = rand() % AnchoBorde; //X
+	FrutasBonus2[1] = rand() % AltoBorde; //Y
+
+	FrutasBonus3[0] = rand() % AnchoBorde; //X
+	FrutasBonus3[1] = rand() % AltoBorde; //Y
+
+	FrutasBonus4[0] = rand() % AnchoBorde; //X
+	FrutasBonus4[1] = rand() % AltoBorde; //Y
+
+	FrutasBonus5[0] = rand() % AnchoBorde; //X
+	FrutasBonus5[1] = rand() % AltoBorde; //Y
+
+	FrutasBonus6[0] = rand() % AnchoBorde; //X
+	FrutasBonus6[1] = rand() % AltoBorde; //Y
+
+
+
+
+//1800000
+	while (GameOver == false)
+	{
+		cout << "\n\n\n\n";
+		LogicaGrafica();
+		MovimientoCola();
+		//BUCLE PARA CONTROLAR LA VELOCIDAD
+		//EL NUMERO DEPENDE DE CADA COMPUTADORA
+		for (int aa = 0; aa < 180000; aa++) {
+			cout << "";
+		}
+
+		DetectarTeclas();
+		MovimientoSerpiente();
+
+
+		LogicaJuego();
+	}
+
+	cout << " \nP E R D I S T E";
+
+
+
+	return 0;
+}
