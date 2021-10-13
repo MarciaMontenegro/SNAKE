@@ -82,6 +82,7 @@ int LogicaGrafica()
 			else if (j == PosComida[0] && i == PosComida[1])
 			{
 				cout << "*"; //DIBUJA COMIDA
+				
 
 
 			}
@@ -89,38 +90,38 @@ int LogicaGrafica()
 
 			else if (Puntaje % 5 == 0 && j == FrutasBonus[0] && i == FrutasBonus[1])
 			{
-				cout << "%"; //DIBUJA COMIDA
+				cout << "*"; //DIBUJA COMIDA
 			}
 
 
 
 			else if (Puntaje % 5 == 0 && j == FrutasBonus2[0] && i == FrutasBonus2[1])
 			{
-				cout << "%"; //DIBUJA COMIDA
+				cout << "*"; //DIBUJA COMIDA
 			}
 
 
 			else if (Puntaje % 5 == 0 && j == FrutasBonus3[0] && i == FrutasBonus3[1])
 			{
-				cout << "%"; //DIBUJA COMIDA
+				cout << "*"; //DIBUJA COMIDA
 			}
 
 
 			else if (Puntaje % 5 == 0 && j == FrutasBonus4[0] && i == FrutasBonus4[1])
 			{
-				cout << "%"; //DIBUJA COMIDA
+				cout << "*"; //DIBUJA COMIDA
 			}
 
 
 			else if (Puntaje % 5 == 0 && j == FrutasBonus5[0] && i == FrutasBonus5[1])
 			{
-				cout << "%"; //DIBUJA COMIDA
+				cout << "*"; //DIBUJA COMIDA
 			}
 
 
 			else if (Puntaje % 5 == 0 && j == FrutasBonus6[0] && i == FrutasBonus6[1])
 			{
-				cout << "%"; //DIBUJA COMIDA
+				cout << "*"; //DIBUJA COMIDA
 			}
 
 			else if (FrutasBonus[0] == 100 && FrutasBonus[1] == 100 && FrutasBonus2[0] == 100 && FrutasBonus2[1] == 100 && FrutasBonus3[0] == 100 && FrutasBonus3[0] == 100)
