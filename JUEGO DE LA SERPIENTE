@@ -11,9 +11,6 @@
 
 using namespace std;
 
-
-
-
 //VARIABLES
 
 //1 LIMITES DEL JUEGO(BORDES)
@@ -53,10 +50,6 @@ int FrutasBonus3[2];
 int FrutasBonus4[2];
 int FrutasBonus5[2];
 int FrutasBonus6[2];
-
-
-
-
 
 int LogicaGrafica()
 {
@@ -136,11 +129,6 @@ int LogicaGrafica()
 				FrutasBonus[1] = rand() % AltoBorde; //Y
 			}
 
-
-
-
-
-
 			else
 			{
 				bool MuestraCola = false; //para mostrar la cola
@@ -182,10 +170,6 @@ int LogicaGrafica()
 	cout << endl;
 
 	cout << "Puntaje: " << Puntaje << "    Vidas: " << vida << endl;
-
-
-
-
 
 	return 0;
 }
@@ -375,17 +359,6 @@ int LogicaJuego()
 
 	}
 
-
-
-
-
-
-
-
-
-
-
-
 	//CUANDO SE TOCA A SI MISMA
 	for (int i = 0; i < TamanoCola; i++)
 	{
@@ -402,9 +375,6 @@ int LogicaJuego()
 
 	return 0;
 }
-
-
-
 
 
 int main()
@@ -436,8 +406,6 @@ int main()
 	FrutasBonus6[1] = rand() % AltoBorde; //Y
 
 
-
-
 //1800000
 	while (GameOver == false)
 	{
@@ -458,8 +426,5 @@ int main()
 	}
 
 	cout << " \nP E R D I S T E";
-
-
-
 	return 0;
 }
